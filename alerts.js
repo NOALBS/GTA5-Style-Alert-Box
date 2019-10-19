@@ -1,7 +1,11 @@
 class Alert {
-    constructor() {
-        this.div = document.getElementById("alerts");
+    /**
+     * @param {string} elementId The div id you want to use for alerts.
+     */
+    constructor(elementId) {
+        this.div = document.getElementById(elementId);
         this.div.addEventListener("animationend", this.animationEndHandler.bind(this));
+        new MutationObserver(this.deleteHandler).observe(this.div, { childList: true });
     }
 
     /**
@@ -70,6 +74,22 @@ class Alert {
 
         if (e.animationName == "slidein") {
             e.target.classList.remove("slidein");
+        }
+    }
+
+    /**
+     * Deletes the notification after 15 seconds.
+     * @param {any} mutationsList Mutationlist from observer
+     */
+    deleteHandler(mutationsList) {
+        for (let mutation of mutationsList) {
+            if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                for (let nodes of mutation.addedNodes) {
+                    setTimeout(() => {
+                        nodes.remove();
+                    }, 15000);
+                }
+            }
         }
     }
 }
