@@ -16,12 +16,12 @@ class Alert {
      */
     template(template, data) {
         switch (template) {
-            case "test":
+            case "notificationPicture":
                 return `
                         <div class="elem">
-                            <div class="alert fadein">
+                            <div class="alert alertWithPicture fadein">
                                 <div class="IMG">
-                                    <img src="https://via.placeholder.com/1000x1000" alt="img">
+                                    <img src="${data.image}" alt="img">
                                 </div>
                                 <div class="INFO">
                                     <p class="H1">${data.title}</p>
@@ -33,7 +33,14 @@ class Alert {
                             </div> 
                         </div>
                     `;
-
+            case "notification":
+                return `
+                    <div class="elem">
+                            <div class="alert alertNormal fadein">
+                                <p>${data.text}</p>
+                            </div> 
+                        </div>
+                    `;
             default:
                 break;
         }
